@@ -1,0 +1,19 @@
+{
+    "name": "PlayerLoopCustomizationAPI.Addons.Runner.Implementation",
+    "rootNamespace": "",
+    "references": [
+        "GUID:dfb370ca82bbb154b8d9fed5d206b4f8",
+        "GUID:24d01c32b07a42f4da0ea1c0faeeec59"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "PLAYERLOOPAPI_RUNNER_IMPLEMENTATION"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
