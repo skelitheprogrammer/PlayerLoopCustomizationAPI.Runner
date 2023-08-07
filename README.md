@@ -14,12 +14,12 @@ Addon for <a href="https://github.com/skelitheprogrammer/PlayerLoop-Customizatio
 ### Add via package manager
 
 ```
-
+https://github.com/skelitheprogrammer/PlayerLoop-customization-API-Runner-Addon.git
 ```
 
 ### Add dependency in manifest.json
 ```
-
+"com.skillitronic.playerloopcustomizationapi.addons.runner": "https://github.com/skelitheprogrammer/PlayerLoop-customization-API-Runner-Addon.git"
 ```
 
 # Getting Started
