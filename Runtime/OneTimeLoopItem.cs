@@ -1,4 +1,4 @@
-﻿namespace PlayerLoopCustomizationAPI.Addons.Runner.Implementation
+﻿namespace PlayerLoopCustomizationAPI.Addons.Runner
 {
     public abstract class OneTimeLoopItem : LoopItem
     {
