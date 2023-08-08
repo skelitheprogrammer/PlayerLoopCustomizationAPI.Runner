@@ -1,7 +1,7 @@
 {
   "name": "com.skillitronic.playerloopcustomizationapi.addons.runner",
   "displayName": "PlayerLoop customization API Runner",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Add your own loop runners",
   "keywords": [
     "unity",
@@ -19,7 +19,7 @@
     "url": "https://github.com/skelitheprogrammer"
   },
   "dependencies": {
-    "com.skillitronic.playerloopcustomizationapi": "0.1.1"
+    "com.skillitronic.playerloopcustomizationapi": "https://github.com/skelitheprogrammer/PlayerLoop-Customization-API.git"
   },
   "enableLockFile": true,
   "resolutionStrategy": "highest",
