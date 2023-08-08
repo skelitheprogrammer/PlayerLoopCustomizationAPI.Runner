@@ -69,6 +69,8 @@ public class CustomTickLoopItem : LoopItem
     }
 }
 ```
+> You also can inherit from [OneTimeLoopItem](Runtime/OneTimeLoopItem.cs) or [RepeatableLoopItem](Runtime/RepeatableLoopItem.cs) to get concrete implementation with one time or infintie uses
+
 > You can implement fully custom LoopItem using [ILoopItem](ILoopItem.cs) interface
 ## Create class that will be invoked in your Composition root
 ```c#
