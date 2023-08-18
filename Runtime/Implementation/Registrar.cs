@@ -1,4 +1,4 @@
-﻿using PlayerLoopCustomizationAPI.Runtime;
+﻿using PlayerLoopCustomizationAPI.Utils;
 using UnityEngine;
 using UnityEngine.LowLevel;
 using UnityEngine.PlayerLoop;
@@ -65,7 +65,7 @@ namespace PlayerLoopCustomizationAPI.Addons.Runner.Implementation
         private struct PlayerLoopAPIPostLateTick
         {
         }
-        
+
         private static readonly LoopRunner[] _runners = new LoopRunner[10];
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -76,73 +76,22 @@ namespace PlayerLoopCustomizationAPI.Addons.Runner.Implementation
                 _runners[index] = new LoopRunner();
             }
 
-            PlayerLoopSystem playerLoopAPIInitSystem = new()
-            {
-                type = typeof(PlayerLoopAPIInitialize),
-                updateDelegate = _runners[(int) PlayerLoopTiming.INITIALIZATION].Run
-            };
+            PlayerLoopSystem playerLoopAPIInitSystem = PlayerLoopUtils.CreateSystem<PlayerLoopAPIInitialize>(_runners[(int) PlayerLoopTiming.INITIALIZATION].Run);
+            PlayerLoopSystem playerLoopAPIPostInitSystem = PlayerLoopUtils.CreateSystem<PlayerLoopAPIPostInitialize>(_runners[(int) PlayerLoopTiming.POST_INITIALIZATION].Run);
+            PlayerLoopSystem playerLoopAPIStartSystem = PlayerLoopUtils.CreateSystem<PlayerLoopAPIStart>(_runners[(int) PlayerLoopTiming.START].Run);
+            PlayerLoopSystem playerLoopAPIPostStartSystem = PlayerLoopUtils.CreateSystem<PlayerLoopAPIPostStart>(_runners[(int) PlayerLoopTiming.POST_START].Run);
+            PlayerLoopSystem playerLoopAPIFixedTickSystem = PlayerLoopUtils.CreateSystem<PlayerLoopAPIFixedTick>(_runners[(int) PlayerLoopTiming.FIXED_TICK].Run);
+            PlayerLoopSystem playerLoopAPIPostFixedTickSystem = PlayerLoopUtils.CreateSystem<PlayerLoopAPIPostFixedTick>(_runners[(int) PlayerLoopTiming.POST_FIXED_TICK].Run);
+            PlayerLoopSystem playerLoopAPITickSystem = PlayerLoopUtils.CreateSystem<PlayerLoopAPITick>(_runners[(int) PlayerLoopTiming.TICK].Run);
+            PlayerLoopSystem playerLoopAPIPostTickSystem = PlayerLoopUtils.CreateSystem<PlayerLoopAPIPostTick>(_runners[(int) PlayerLoopTiming.POST_TICK].Run);
+            PlayerLoopSystem playerLoopAPILateTickSystem = PlayerLoopUtils.CreateSystem<PlayerLoopAPILateTick>(_runners[(int) PlayerLoopTiming.LATE_TICK].Run);
+            PlayerLoopSystem playerLoopAPIPostLateTickSystem = PlayerLoopUtils.CreateSystem<PlayerLoopAPIPostLateTick>(_runners[(int) PlayerLoopTiming.POST_LATE_TICK].Run);
 
-            PlayerLoopSystem playerLoopAPIPostInitSystem = new()
-            {
-                type = typeof(PlayerLoopAPIPostInitialize),
-                updateDelegate = _runners[(int) PlayerLoopTiming.POST_INITIALIZATION].Run
-            };
-
-            PlayerLoopSystem playerLoopAPIStartSystem = new()
-            {
-                type = typeof(PlayerLoopAPIStart),
-                updateDelegate = _runners[(int) PlayerLoopTiming.START].Run
-            };
-
-            PlayerLoopSystem playerLoopAPIPostStartSystem = new()
-            {
-                type = typeof(PlayerLoopAPIPostStart),
-                updateDelegate = _runners[(int) PlayerLoopTiming.POST_START].Run
-            };
-
-            PlayerLoopSystem playerLoopAPIFixedTickSystem = new()
-            {
-                type = typeof(PlayerLoopAPIFixedTick),
-                updateDelegate = _runners[(int) PlayerLoopTiming.FIXED_TICK].Run
-            };
-
-            PlayerLoopSystem playerLoopAPIPostFixedTickSystem = new()
-            {
-                type = typeof(PlayerLoopAPIPostFixedTick),
-                updateDelegate = _runners[(int) PlayerLoopTiming.POST_FIXED_TICK].Run
-            };
-
-            PlayerLoopSystem playerLoopAPITickSystem = new()
-            {
-                type = typeof(PlayerLoopAPITick),
-                updateDelegate = _runners[(int) PlayerLoopTiming.TICK].Run
-            };
-
-            PlayerLoopSystem playerLoopAPIPostTickSystem = new()
-            {
-                type = typeof(PlayerLoopAPIPostTick),
-                updateDelegate = _runners[(int) PlayerLoopTiming.POST_TICK].Run
-            };
-
-            PlayerLoopSystem playerLoopAPILateTickSystem = new()
-            {
-                type = typeof(PlayerLoopAPILateTick),
-                updateDelegate = _runners[(int) PlayerLoopTiming.LATE_TICK].Run
-            };
-
-            PlayerLoopSystem playerLoopAPIPostLateTickSystem = new()
-            {
-                type = typeof(PlayerLoopAPIPostLateTick),
-                updateDelegate = _runners[(int) PlayerLoopTiming.POST_LATE_TICK].Run
-            };
-
-            ref PlayerLoopSystem copyLoop = ref PlayerLoopAPI.GetCustomPlayerLoop();
-            
-            copyLoop.GetLoopSystem<Initialization>().WrapSystems(playerLoopAPIInitSystem, playerLoopAPIPostInitSystem);
-            copyLoop.GetLoopSystem<EarlyUpdate>().WrapSystemsAt<EarlyUpdate.ScriptRunDelayedStartupFrame>(playerLoopAPIStartSystem, playerLoopAPIPostStartSystem);
-            copyLoop.GetLoopSystem<FixedUpdate>().WrapSystemsAt<FixedUpdate.ScriptRunBehaviourFixedUpdate>(playerLoopAPIFixedTickSystem, playerLoopAPIPostFixedTickSystem);
-            copyLoop.GetLoopSystem<Update>().WrapSystemsAt<Update.ScriptRunBehaviourUpdate>(playerLoopAPITickSystem, playerLoopAPIPostTickSystem);
-            copyLoop.GetLoopSystem<PreLateUpdate>().WrapSystemsAt<PreLateUpdate.ScriptRunBehaviourLateUpdate>(playerLoopAPILateTickSystem, playerLoopAPIPostLateTickSystem);
+            PlayerLoopAPI.WrapInside(ref playerLoopAPIInitSystem, ref playerLoopAPIPostInitSystem, typeof(Initialization));
+            PlayerLoopAPI.WrapAround(ref playerLoopAPIStartSystem, ref playerLoopAPIPostStartSystem, typeof(EarlyUpdate.ScriptRunDelayedStartupFrame));
+            PlayerLoopAPI.WrapAround(ref playerLoopAPIFixedTickSystem, ref playerLoopAPIPostFixedTickSystem, typeof(FixedUpdate.ScriptRunBehaviourFixedUpdate));
+            PlayerLoopAPI.WrapAround(ref playerLoopAPITickSystem, ref playerLoopAPIPostTickSystem, typeof(Update.ScriptRunBehaviourUpdate));
+            PlayerLoopAPI.WrapAround(ref playerLoopAPILateTickSystem, ref playerLoopAPIPostLateTickSystem, typeof(PreLateUpdate.ScriptRunBehaviourLateUpdate));
         }
 
         public static void Dispatch(PlayerLoopTiming timing, ILoopItem item)

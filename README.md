@@ -121,6 +121,6 @@ From now on, all you need to do is to manage registration in your Composition Ro
 
 > If you don't want to manage registration, check out [As a plugin](#as-a-plugin) section.
 
-# As a plugin
+# As a Reflex plugin
 This addon also works as a plugin for [Reflex DI framework](https://github.com/gustavopsantos/Reflex#blazing-fast-minimal-but-complete-dependency-injection-library-for-unity) (using [ready solution](#ready-solution)). Look at [this package](https://github.com/skelitheprogrammer/Reflex-PlayerLoop-Runner-Plugin)
 to understand how to start using it.
