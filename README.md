@@ -25,7 +25,7 @@ Addon for <a href="https://github.com/skelitheprogrammer/PlayerLoop-Customizatio
 ```
 ### Add dependency in manifest.json
 ```
-"com.skillitronic.playerloopcustomizationapi": https://github.com/skelitheprogrammer/PlayerLoop-customization-API-Runner-Addon.git
+"com.skillitronic.playerloopcustomizationapi.addons.runner": "https://github.com/skelitheprogrammer/PlayerLoop-customization-API-Runner-Addon.git"
 ```
 
 ### Or via package manager URL
