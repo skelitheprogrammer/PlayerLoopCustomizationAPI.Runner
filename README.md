@@ -11,15 +11,26 @@ Addon for <a href="https://github.com/skelitheprogrammer/PlayerLoop-Customizatio
 
 # Installation
 
-### Add via package manager
-
+### Add Scoped Registry to manifest.json
 ```
-https://github.com/skelitheprogrammer/PlayerLoop-customization-API-Runner-Addon.git
+"scopedRegistries": [
+    {
+      "name": "OpenUPM",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.skillitronic.playerloopcustomizationapi"
+      ]
+    }
+]
 ```
-
 ### Add dependency in manifest.json
 ```
-"com.skillitronic.playerloopcustomizationapi.addons.runner": "https://github.com/skelitheprogrammer/PlayerLoop-customization-API-Runner-Addon.git"
+"com.skillitronic.playerloopcustomizationapi": https://github.com/skelitheprogrammer/PlayerLoop-customization-API-Runner-Addon.git
+```
+
+### Or via package manager URL
+```
+https://github.com/skelitheprogrammer/PlayerLoop-customization-API-Runner-Addon.git
 ```
 
 # Getting Started
